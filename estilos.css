@@ -1,0 +1,16 @@
+.cuerpo{
+    border: 2px solid black;
+    height: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+.cuerpo>div{
+    border: 2px solid pink;
+    width: max-content;
+}
+td{
+        min-width: auto;
+
+}

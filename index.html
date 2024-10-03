@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UFC 24/25</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link rel="shortcut icon" href="/Img/Miscelanea/logo.png" />
+</head>
+<body>
+    <h1>UEFA Champions League 2024/2025</h1>
+
+    <section class="cuerpo">
+        <div>
+            <h1>Clasificación</h1>
+            <table class="clasificacion" id="clasificacion">
+                <thead>
+                    <tr>
+                        <th>Club</th>
+                        <th>PJ</th>
+                        <th>V</th>
+                        <th>E</th>
+                        <th>D</th>
+                        <th>GF</th>
+                        <th>GC</th>
+                        <th>DG</th>
+                        <th>Pts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Las filas se agregarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <h1>Partidos</h1>
+        </div>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+    <script>
+        // Ruta al archivo CSV
+        const rutaCSV = 'Datos/Equipos.csv';
+
+        // Usar PapaParse para leer el archivo CSV
+        Papa.parse(rutaCSV, {
+            download: true, // Descargar el archivo CSV desde la ruta especificada
+            header: true,   // Procesar los encabezados del CSV
+            complete: function(results) {
+                // Los datos procesados están en results.data
+                const equipos = results.data;
+
+                // Llamar a la función para agregar las filas a la tabla
+                agregarFilasATabla(equipos);
+            },
+            error: function(err) {
+                console.error('Error al leer el archivo CSV:', err);
+            }
+        });
+
+        // Función para agregar filas a la tabla
+        function agregarFilasATabla(equipos) {
+            // Obtener referencia al cuerpo de la tabla
+            const tabla = document.querySelector("#clasificacion tbody");
+
+            if (tabla) {
+                // Recorrer el array de equipos y agregar cada uno a la tabla
+                equipos.forEach(equipo => {
+                    // Crear una nueva fila
+                    const nuevaFila = tabla.insertRow(); // <-- Aquí debería funcionar
+
+                    // Agregar celdas con los datos del equipo
+                    let celdaClub = nuevaFila.insertCell();
+                    let celdaPJ = nuevaFila.insertCell();
+                    let celdaV = nuevaFila.insertCell();
+                    let celdaE = nuevaFila.insertCell();
+                    let celdaD = nuevaFila.insertCell();
+                    let celdaGF = nuevaFila.insertCell();
+                    let celdaGC = nuevaFila.insertCell();
+                    let celdaDG = nuevaFila.insertCell();
+                    let celdaPts = nuevaFila.insertCell();
+
+                    // Rellenar las celdas con la información del equipo
+                    celdaClub.textContent = equipo.Nombre || '';
+                    celdaPJ.textContent = equipo.PJ || '';
+                    celdaV.textContent = equipo.Victorias || '';
+                    celdaE.textContent = equipo.Empates || '';
+                    celdaD.textContent = equipo.Derrotas || '';
+                    celdaGF.textContent = equipo.GolesFavor || '';
+                    celdaGC.textContent = equipo.GolesContra || '';
+                    celdaDG.textContent = equipo.DiferenciaGoles || '';
+                    celdaPts.textContent = equipo.Puntos || '';
+                });
+            } else {
+                console.error('No se encontró el elemento tbody de la tabla.');
+            }
+        }
+    </script>
+</body>
+</html>
